@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d4ea9121-4c57-46df-b254-420a7b68e80f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/layouts/_messages.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/questions/_form.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/questions/edit.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/QuestionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/QuestionController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/questions/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/questions/create.blade.php" afterDir="false" />
@@ -133,6 +134,9 @@
     <property name="settings.editor.selected.configurable" value="fileTemplates" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/resources/views/questions" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/resources/views/questions" />
     </key>
