@@ -19,7 +19,7 @@
                         {!! Form::open(['route' => 'questions.store', 'method' => 'POST']) !!}
                         <div class="form-group">
                             {!! Form::label('question-title', 'Question Title'); !!}
-                            {!! Form::text('title', null, ['id' => 'question-title', 'class' => 'form-control '. ($errors->has('title')?'is-invalid':'')]); !!}
+                            {!! Form::text('title', old('title'), ['id' => 'question-title', 'class' => 'form-control '. ($errors->has('title')?'is-invalid':'')]); !!}
 
                             @if ($errors->has('title'))
                                 <div class="invalid-feedback">
@@ -29,7 +29,7 @@
                         </div>
                         <div class="form-group">
                             {!! Form::label('question-body', 'Question Title'); !!}
-                            {!! Form::textarea('body', null, ['id' => 'question-body', 'class' => 'form-control '. ($errors->has('body')?'is-invalid' :''), 'rows'=>'10']); !!}
+                            {!! Form::textarea('body', old('body'), ['id' => 'question-body', 'class' => 'form-control '. ($errors->has('body')?'is-invalid' :''), 'rows'=>'10']); !!}
 
                             @if ($errors->has('body'))
                                 <div class="invalid-feedback">
