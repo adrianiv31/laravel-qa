@@ -35,7 +35,7 @@ class QuestionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(AskQuestionRequest $request)
@@ -48,7 +48,7 @@ class QuestionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Question  $question
+     * @param \App\Question $question
      * @return \Illuminate\Http\Response
      */
     public function show(Question $question)
@@ -61,38 +61,45 @@ class QuestionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Question  $question
+     * @param \App\Question $question
      * @return \Illuminate\Http\Response
      */
     public function edit(Question $question)
     {
+        if (\Gate::denies('update-question', $question)) {
+            abort(403, 'Access denied');
+        }
+
         return view('questions.edit', compact('question'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Question  $question
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Question $question
      * @return \Illuminate\Http\Response
      */
     public function update(AskQuestionRequest $request, Question $question)
     {
-        $question->update($request->only('title','body'));
+        $question->update($request->only('title', 'body'));
 
-        return redirect('/questions')->with('success',"Your question has been updated.");
+        return redirect('/questions')->with('success', "Your question has been updated.");
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Question  $question
+     * @param \App\Question $question
      * @return \Illuminate\Http\Response
      */
     public function destroy(Question $question)
     {
+        if (\Gate::denies('delete-question', $question)) {
+            abort(403, 'Access denied');
+        }
         $question->delete();
 
-        return redirect('/questions')->with('success','Your question has been deletede.');
+        return redirect('/questions')->with('success', 'Your question has been deletede.');
     }
 }
