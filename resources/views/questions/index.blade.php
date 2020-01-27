@@ -36,6 +36,9 @@
                                         <h3 class="mt-0"><a href="{{ $question->url }}">{{ $question->title }}</a></h3>
                                         <div class="ml-auto">
                                             <a href="{{ route('questions.edit', $question->id) }}" class="btn btn-sm btn-outline-info">Edit</a>
+                                            {!! Form::open(['method' => 'DELETE', 'action' => ['QuestionController@destroy', $question->id],'class' => 'form-delete']) !!}
+                                                {!! Form::submit('Delete', ['class' =>'btn btn-outline-danger btn-sm', 'onclick' => 'return confirm("Are you sure?")']); !!}
+                                            {!! Form::close() !!}
                                         </div>
                                     </div>
                                     <p class="lead">
