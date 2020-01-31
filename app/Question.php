@@ -14,8 +14,15 @@ class Question extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function answers(){
+    public function answers()
+    {
         return $this->hasMany(Answer::class);
+    }
+
+    public function acceptBestAnswer(Answer $answer)
+    {
+        $this->best_answer_id = $answer->id;
+        $this->save();
     }
 
     public function setTitleAttribute($value)
@@ -37,7 +44,7 @@ class Question extends Model
     public function getStatusAttribute()
     {
         if ($this->answers_column > 0) {
-            if($this->best_answer_id){
+            if ($this->best_answer_id) {
                 return "answered-accepted";
             }
             return "answered";
@@ -45,7 +52,8 @@ class Question extends Model
         return "unanswered";
     }
 
-    public function getBodyHtmlAttribute(){
+    public function getBodyHtmlAttribute()
+    {
         return \Parsedown::instance()->text($this->body);
     }
 }

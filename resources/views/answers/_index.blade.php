@@ -17,9 +17,24 @@
                             <a title="This answer is not usefull" class="vote-down off">
                                 <i class="fas fa-caret-down fa-3x"></i>
                             </a>
-                            <a title="Mark this answer as best answer" class="favorite mt-2 {{ $answer->status }}">
-                                <i class="fas fa-check fa-2x"></i>
-                            </a>
+                            @can('accept',$answer)
+                                <a title="Mark this answer as best answer"
+                                   class="favorite mt-2 {{ $answer->status }}"
+                                   onclick="event.preventDefault(); document.getElementById('accept-answer-{{ $answer->id }}').submit();"
+                                >
+                                    <i class="fas fa-check fa-2x"></i>
+                                </a>
+                                {!! Form::open(['route' => ['answers.accept',$answer->id], 'method' => 'POST', 'id' => 'accept-answer-'.$answer->id, 'style' => 'display:none']) !!}
+                                {!! Form::close() !!}
+                            @else
+                                @if($answer->is_best)
+                                    <a title="The question qwner acceped this answer as best answer"
+                                       class="favorite mt-2 {{ $answer->status }}"
+                                    >
+                                        <i class="fas fa-check fa-2x"></i>
+                                    </a>
+                                @endif
+                            @endcan
                         </div>
                         <div class="media-body">
                             {!! $answer->body_html !!}
