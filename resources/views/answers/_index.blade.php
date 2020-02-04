@@ -10,13 +10,24 @@
                 @foreach($answers as $answer)
                     <div class="media">
                         <div class="d-flex flex-column vote-controls">
-                            <a title="This answer is usefull" class="vote-up">
+                            <a title="This answer is usefull"
+                               class="vote-up {{ Auth::guest() ? 'off' : '' }}"
+                               onclick="event.preventDefault(); document.getElementById('up-vote-answer-{{ $answer->id }}').submit();"
+                            >
                                 <i class="fas fa-caret-up fa-3x"></i>
                             </a>
-                            <span class="votes count">1234</span>
-                            <a title="This answer is not usefull" class="vote-down off">
+                            {!! Form::open(['route'=> ['answers.vote',$answer->id], 'method' => 'POST', 'id' => 'up-vote-answer-'.$answer->id, 'style' => 'display:none']) !!}
+                            {!! Form::hidden('vote','1') !!}
+                            {!! Form::close() !!}
+                            <span class="votes count">{{ $answer->votes_count }}</span>
+                            <a title="This answer is not usefull" class="vote-down  {{ Auth::guest() ? 'off' : '' }}"
+                               onclick="event.preventDefault(); document.getElementById('down-vote-answer-{{ $answer->id }}').submit();"
+                            >
                                 <i class="fas fa-caret-down fa-3x"></i>
                             </a>
+                            {!! Form::open(['route'=> ['answers.vote',$answer->id], 'method' => 'POST', 'id' => 'down-vote-answer-'.$answer->id, 'style' => 'display:none']) !!}
+                            {!! Form::hidden('vote','-1') !!}
+                            {!! Form::close() !!}
                             @can('accept',$answer)
                                 <a title="Mark this answer as best answer"
                                    class="favorite mt-2 {{ $answer->status }}"
