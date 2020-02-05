@@ -31,6 +31,14 @@ class Question extends Model
         return $this->favorites()->where('user_id', auth()->id())->count() > 0;
     }
 
+    public function excerpt($length){
+        return Str::limit(strip_tags($this->bodyHtml()),$length);
+    }
+
+    private function bodyHtml(){
+        return \Parsedown::instance()->text($this->body);
+    }
+
     public function acceptBestAnswer(Answer $answer)
     {
         $this->best_answer_id = $answer->id;
@@ -76,6 +84,14 @@ class Question extends Model
 
     public function getBodyHtmlAttribute()
     {
-        return \Parsedown::instance()->text($this->body);
+        return clean($this->bodyHtml());
     }
+
+    public function getExcerptAttribute(){
+        return $this->excerpt();
+    }
+
+//    public function setBodyAttribute($value){
+//        $this->attributes['body'] = clean($value);
+//    }
 }
