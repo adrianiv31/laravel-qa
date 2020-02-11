@@ -22,9 +22,7 @@
                             @endcan
 
                             @can('delete', $answer)
-                                {!! Form::open(['method' => 'DELETE', 'action' => ['AnswersController@destroy', $question->id, $answer->id],'class' => 'form-delete']) !!}
-                                {!! Form::submit('Delete', ['class' =>'btn btn-outline-danger btn-sm', 'onclick' => 'return confirm("Are you sure?")']); !!}
-                                {!! Form::close() !!}
+                                {!! Form::button('Delete', ['class' =>'btn btn-outline-danger btn-sm', '@click' => 'destroy']); !!}
                             @endcan
                         </div>
                     </div>

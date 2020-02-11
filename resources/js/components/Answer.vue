@@ -25,7 +25,7 @@
             },
 
             update(){
-                axios.patch(`/questions/${this.questionId}/answers/${this.id}`,{
+                axios.patch(this.endpoint,{
                 body: this.body
                 })
                     .then(res => {
@@ -37,11 +37,26 @@
                         this.editing = false;
                         alert(err.response.data.message);
                     });
+            },
+
+            destroy(){
+                if(confirm("Are yuo sure?")){
+                    axios.delete(this.endpoint)
+                        .then(res => {
+                            $(this.$el).fadeOut(500,() => {
+                                alert(res.data.message);
+                            })
+                        })
+                }
             }
         },
         computed: {
             isInvalid(){
                 return this.body.length < 10;
+            },
+
+            endpoint(){
+                return `/questions/${this.questionId}/answers/${this.id}`;
             }
         }
     }
