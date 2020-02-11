@@ -52,6 +52,13 @@ class AnswersController extends Controller
             'body' => 'required',
         ]));
 
+        if($request->expectsJson()){
+            return response()->json([
+                'message' => "Your answer hass been updated",
+                'body_html' => $answer->body_html
+            ]);
+        }
+
         return redirect()->route('questions.show', $question->slug)->with('success', 'Your question has been updated');
     }
 
