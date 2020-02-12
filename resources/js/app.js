@@ -4,6 +4,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+
 require('./bootstrap');
 require('./fontawesome');
 
@@ -11,9 +12,10 @@ window.Vue = require('vue');
 
 import VueIziToast from 'vue-izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
+import Authorization from './authorization/authorize';
 
 Vue.use(VueIziToast);
-
+Vue.use(Authorization);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
