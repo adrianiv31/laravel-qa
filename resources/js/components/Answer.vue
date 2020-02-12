@@ -2,7 +2,7 @@
     export default {
         props: ['answer'],
 
-        data(){
+        data() {
             return {
                 editing: false,
                 body: this.answer.body,
@@ -14,48 +14,68 @@
         },
 
         methods: {
-            edit(){
-              this.beforeEditCache = this.body;
-              this.editing = true;
+            edit() {
+                this.beforeEditCache = this.body;
+                this.editing = true;
             },
 
-            cancel(){
+            cancel() {
                 this.body = this.beforeEditCache;
                 this.editing = false;
             },
 
-            update(){
-                axios.patch(this.endpoint,{
-                body: this.body
+            update() {
+                axios.patch(this.endpoint, {
+                    body: this.body
                 })
                     .then(res => {
                         this.editing = false;
                         this.bodyHtml = res.data.body_html;
-                        alert(res.data.message);
+                        this.$toast.success(res.data.message, 'Success', {timeout: 3000});
                     })
                     .catch(err => {
                         this.editing = false;
-                        alert(err.response.data.message);
+                        this.$toast.error(err.response.data.message, 'Error', {timeout: 3000});
                     });
             },
 
-            destroy(){
-                if(confirm("Are yuo sure?")){
-                    axios.delete(this.endpoint)
-                        .then(res => {
-                            $(this.$el).fadeOut(500,() => {
-                                alert(res.data.message);
-                            })
-                        })
-                }
+            destroy() {
+                this.$toast.question('Are you sure about that?','Confirm', {
+                    timeout: 20000,
+                    close: false,
+                    overlay: true,
+                    displayMode: 'once',
+                    id: 'question',
+                    zindex: 999,
+                    title: 'Hey',
+
+                    position: 'center',
+                    buttons: [
+                        ['<button><b>YES</b></button>', (instance, toast) => {
+                            axios.delete(this.endpoint)
+                                .then(res => {
+                                    $(this.$el).fadeOut(500, () => {
+                                        this.$toast.success(res.data.message, 'Success', {timeout: 3000});
+                                    })
+                                })
+                            instance.hide({transitionOut: 'fadeOut'}, toast, 'button');
+
+                        }, true],
+                        ['<button>NO</button>', function (instance, toast) {
+
+                            instance.hide({transitionOut: 'fadeOut'}, toast, 'button');
+
+                        }],
+                    ],
+                });
             }
         },
         computed: {
-            isInvalid(){
+            isInvalid() {
                 return this.body.length < 10;
             },
 
-            endpoint(){
+            endpoint() {
                 return `/questions/${this.questionId}/answers/${this.id}`;
             }
         }
