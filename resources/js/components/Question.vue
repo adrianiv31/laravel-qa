@@ -10,7 +10,9 @@
                     <div class="media">
                         <div class="media-body">
                             <div class="form-group">
-                                <textarea rows="10" v-model="body" class="form-control" required></textarea>
+                                <m-editor :body="body">
+                                    <textarea rows="10" v-model="body" class="form-control" required></textarea>
+                                </m-editor>
                             </div>
                             <button class="btn btn-primary" type="submit" :disabled="isInvalid">Update</button>
                             <button @click="cancel" class="btn btn-outline-secondary" type="button">Cancel</button>
@@ -37,7 +39,8 @@
                                 <div class="col-4">
                                     <a v-if="authorize('modify',question)" @click.prevent="edit"
                                        class="btn btn-sm btn-outline-info">Edit</a>
-                                    <button v-if="authorize('deleteQuestion',question)" class="btn btn-outline-danger btn-sm"
+                                    <button v-if="authorize('deleteQuestion',question)"
+                                            class="btn btn-outline-danger btn-sm"
                                             @click="destroy">Delete
                                     </button>
                                 </div>
@@ -58,11 +61,12 @@
     import Vote from "./Vote";
     import UserInfo from "./UserInfo";
     import modification from "../mixins/modification";
+    import MEditor from "./MEditor";
 
     export default {
         props: ['question'],
 
-        components:{Vote,UserInfo},
+        components: {Vote, UserInfo, MEditor},
 
         mixins: [modification],
 
@@ -99,14 +103,14 @@
                 this.title = this.beforeEditCache.title;
             },
 
-            payload(){
+            payload() {
                 return {
                     body: this.body,
                     title: this.title
                 }
             },
 
-            delete(){
+            delete() {
                 axios.delete(this.endpoint)
                     .then(({data}) => {
                         this.$toast.success(data.message, "Success", {timeout: 2000});
