@@ -29,8 +29,13 @@
     </div>
 </template>
 <script>
+    import Vote from "./Vote";
+    import UserInfo from "./UserInfo";
+
     export default {
         props: ['answer'],
+
+        components:{Vote,UserInfo},
 
         data() {
             return {
@@ -85,7 +90,7 @@
                             axios.delete(this.endpoint)
                                 .then(res => {
                                     this.$emit('deleted');
-                                })
+                                });
                             instance.hide({transitionOut: 'fadeOut'}, toast, 'button');
 
                         }, true],
