@@ -37,10 +37,6 @@
             }
         },
 
-        mounted(){
-            autosize(this.$el.querySelector('textarea'))
-        },
-
         updated(){
             autosize(this.$el.querySelector('textarea'))
         }
