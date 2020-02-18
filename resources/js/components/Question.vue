@@ -2,7 +2,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <form v-if="editing" class="card-body" @submit.prevent="update">
+                <form v-show="authorize('modify',question) && editing" class="card-body" @submit.prevent="update">
                     <div class="card-title">
                         <input type="text" class="form-control form-control-lg" v-model="title">
                     </div>
@@ -19,7 +19,7 @@
                         </div>
                     </div>
                 </form>
-                <div v-else class="card-body">
+                <div v-show="!editing" class="card-body">
                     <div class="card-title">
                         <div class="d-flex align-items-center">
                             <h1>{{ title }}</h1>
@@ -34,7 +34,7 @@
                     <div class="media">
                         <vote :model="question" name="question"></vote>
                         <div class="media-body">
-                            <div v-html="bodyHtml"></div>
+                            <div v-html="bodyHtml" ref="bodyHtml"></div>
                             <div class="row">
                                 <div class="col-4">
                                     <a v-if="authorize('modify',question)" @click.prevent="edit"
@@ -61,6 +61,7 @@
     import Vote from "./Vote";
     import UserInfo from "./UserInfo";
     import modification from "../mixins/modification";
+    import Prism from "prismjs";
     import MEditor from "./MEditor";
 
     export default {
@@ -101,6 +102,10 @@
             restoreFromCache() {
                 this.body = this.beforeEditCache.body;
                 this.title = this.beforeEditCache.title;
+                const el = this.$refs.bodyHtml;
+                if(el) {
+                    Prism.highlightAllUnder(el);
+                }
             },
 
             payload() {
