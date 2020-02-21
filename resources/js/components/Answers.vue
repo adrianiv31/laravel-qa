@@ -26,9 +26,13 @@
 <script>
     import Answer from "./Answer.vue"
     import NewAnswer from "./NewAnswer";
+    import highlight from "../mixins/highlight";
 
     export default {
         props: ['question'],
+
+        mixins: [highlight],
+
         data() {
             return {
                 questionId: this.question.id,
@@ -46,6 +50,7 @@
             add(answer) {
                 this.answers.push(answer);
                 this.count++;
+                this.highlight();
             },
 
             remove(index) {
