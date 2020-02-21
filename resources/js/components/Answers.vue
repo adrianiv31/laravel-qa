@@ -9,10 +9,13 @@
                         </div>
                         <hr>
 
-                        <answer @deleted="remove(index)" v-for="(answer,index) in answers" :answer="answer" :key="answer.id"></answer>
+                        <answer @deleted="remove(index)" v-for="(answer,index) in answers" :answer="answer"
+                                :key="answer.id"></answer>
 
                         <div class="text-center mt-3" v-if="nextUrl">
-                            <button @click.prevent="fetch(nextUrl)" class="btn btn-outline-secondary">Load more answers</button>
+                            <button @click.prevent="fetch(nextUrl)" class="btn btn-outline-secondary">Load more
+                                answers
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -38,6 +41,7 @@
                 questionId: this.question.id,
                 count: this.question.answers_count,
                 answers: [],
+                answerIds: [],
                 nextUrl: null
             }
         },
@@ -50,7 +54,9 @@
             add(answer) {
                 this.answers.push(answer);
                 this.count++;
-                this.highlight();
+                this.$nextTick(() => {
+                    this.highlight(`answer-${answer.id}`);
+                });
             },
 
             remove(index) {
@@ -59,11 +65,19 @@
             },
 
             fetch(endpoint) {
+                this.answerIds = [];
                 axios.get(endpoint)
                     .then(({data}) => {
-                       // console.log(data.data);
-                      this.answers.push(...data.data);
-                      this.nextUrl = data.next_page_url;
+                        // console.log(data.data);
+                        this.answerIds = data.data.map(a => a.id);
+                        this.answers.push(...data.data);
+                        this.nextUrl = data.next_page_url;
+                    })
+                    .then(() => {
+                        this.answerIds.forEach(id => {
+                            this.highlight(`answer-${id}`)
+                        });
+
                     });
             }
         },
