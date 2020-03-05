@@ -1,4 +1,4 @@
-<div class="media post">
+x`<div class="media post">
     <div class="d-flex flex-column counters">
         <div class="vote">
             <strong>{{ $question->votes_count }}</strong> {{ Str::plural('vote', $question->votes_count) }}
